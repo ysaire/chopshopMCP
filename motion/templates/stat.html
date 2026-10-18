@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr" data-composition-variables='[
+  {"id":"value","type":"number","label":"The number it counts up to","default":4},
+  {"id":"from","type":"number","label":"Where the count starts","default":0},
+  {"id":"decimals","type":"number","label":"Digits after the decimal point","default":0},
+  {"id":"prefix","type":"string","label":"Before the number, like a currency sign","default":""},
+  {"id":"suffix","type":"string","label":"After the number, like a unit","default":"mm"},
+  {"id":"label","type":"string","label":"What the number is, one short line","default":"thick"},
+  {"id":"position","type":"string","label":"center, left or right","default":"center"},
+  {"id":"locale","type":"string","label":"Number format","default":"en-US"},
+  {"id":"accent","type":"color","label":"Accent colour","default":"#ff5a36"}]'>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<meta name="description" content="Key number: one big figure that counts up on a solid panel, its unit in the accent colour, a short label under it, an accent bar that fills with the count. Centred, or low left or right. For a size, a weight, a price, a speed, a score." />
+<link rel="stylesheet" href="chop.css" />
+<script src="gsap.min.js"></script>
+<script src="chop.js"></script>
+<style>
+  #card { position: absolute; padding: calc(30 * var(--u)) calc(52 * var(--u)) calc(34 * var(--u)); text-align: center; }
+  #card.center { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  #card.left { left: var(--sx); bottom: var(--sb); text-align: left; }
+  #card.right { right: var(--sx); bottom: var(--sb); text-align: right; }
+  #figure { display: flex; align-items: baseline; justify-content: center; gap: calc(14 * var(--u)); line-height: 1; }
+  #card.left #figure { justify-content: flex-start; }
+  #card.right #figure { justify-content: flex-end; }
+  #prefix, #suffix { font-size: calc(92 * var(--u)); font-weight: 600; color: var(--accent); }
+  #number { font-size: calc(190 * var(--u)); font-weight: 700; letter-spacing: -0.02em; font-stretch: 75%; }
+  #track { height: calc(8 * var(--u)); background: var(--line); margin-top: calc(18 * var(--u)); }
+  #fill { height: 100%; background: var(--accent); transform-origin: 0 50%; }
+  #card.right #fill { transform-origin: 100% 50%; }
+  #label { font-size: calc(36 * var(--u)); color: var(--muted); margin-top: calc(16 * var(--u)); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="4" data-width="1920" data-height="1080">
+  <div id="scene" class="clip" data-start="0" data-duration="4">
+    <div id="card" class="panel">
+      <div id="figure">
+        <span id="prefix"></span><span id="number" class="num"></span><span id="suffix"></span>
+      </div>
+      <div id="track"><div id="fill"></div></div>
+      <div class="mask" id="labelBox"><span id="label"></span></div>
+    </div>
+  </div>
+</div>
+<script>
+  const k = chop();
+  const where = ["left", "right"].includes(k.vars.position) ? k.vars.position : "center";
+  document.getElementById("card").classList.add(where);
+  const value = Number(k.vars.value) || 0;
+  const start = Number(k.vars.from) || 0;
+  const decimals = Math.max(0, Math.min(4, Math.round(Number(k.vars.decimals) || 0)));
+  const fmt = (v) => k.number(v, decimals, k.vars.locale);
+  k.text("prefix", k.vars.prefix);
+  k.text("suffix", k.vars.suffix);
+  k.text("label", k.vars.label);
+  if (!k.vars.label) document.getElementById("labelBox").style.display = "none";
+  const number = document.getElementById("number");
+  // room for the final figure, so the count never shifts the unit: a digit is 1ch in tabular figures
+  number.style.minWidth = Array.from(fmt(value)).reduce((w, c) => w + (/\d/.test(c) ? 1 : 0.45), 0) + "ch";
+  number.style.textAlign = "right";
+  number.textContent = fmt(start);
+  const count = { v: start };
+  const out = Math.max(1.8, k.D - 0.5);
+  const run = Math.min(1.4, Math.max(0.6, (out - 0.4) * 0.6));
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo("#card", { clipPath: "inset(0% 50% 0% 50%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "expo.out" }, 0);
+  tl.fromTo(["#prefix", "#number", "#suffix"], { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.05 }, 0.12);
+  tl.to(count, { v: value, duration: run, ease: "power2.out", onUpdate: () => { number.textContent = fmt(count.v); } }, 0.2);
+  tl.fromTo("#fill", { scaleX: 0 }, { scaleX: 1, duration: run, ease: "power2.out" }, 0.2);
+  tl.fromTo("#label", { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "power3.out" }, 0.35);
+  tl.to(["#prefix", "#number", "#suffix", "#label"], { yPercent: -60, opacity: 0, duration: 0.25, ease: "power2.in", stagger: 0.03 }, out);
+  tl.to("#card", { clipPath: "inset(0% 50% 0% 50%)", duration: 0.3, ease: "expo.in" }, out + 0.18);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

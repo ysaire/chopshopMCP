@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr" data-composition-variables='[
+  {"id":"title","type":"string","label":"Small title above the rows","default":"Specs"},
+  {"id":"rows","type":"string","label":"Rows as label: value, separated by |","default":"Size: 490 × 420 mm | Thickness: 4 mm | Surface: tempered glass | Edges: bevelled"},
+  {"id":"side","type":"string","label":"right or left","default":"right"},
+  {"id":"accent","type":"color","label":"Accent colour","default":"#ff5a36"}]'>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<meta name="description" content="Spec sheet: a solid panel on one side of the frame, a small accent title, then 2 to 6 label / value rows that draw in one after the other. For dimensions, weight, materials, price, compatibility." />
+<link rel="stylesheet" href="chop.css" />
+<script src="gsap.min.js"></script>
+<script src="chop.js"></script>
+<style>
+  #card { position: absolute; top: 50%; right: var(--sx); width: calc(640 * var(--u)); transform: translateY(-50%);
+          padding: calc(34 * var(--u)) calc(40 * var(--u)) calc(30 * var(--u)); border-top: calc(6 * var(--u)) solid var(--accent); }
+  #card.left { right: auto; left: var(--sx); }
+  #card.wide { width: auto; left: var(--sx); right: var(--sx); top: auto; bottom: var(--sb); transform: none; }
+  #title { font-size: calc(24 * var(--u)); margin-bottom: calc(14 * var(--u)); }
+  .row { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: calc(30 * var(--u));
+         padding: calc(16 * var(--u)) 0 calc(14 * var(--u)); }
+  .rule { position: absolute; left: 0; right: 0; top: 0; height: calc(2 * var(--u)); background: var(--line); transform-origin: 0 50%; }
+  #card.left .rule { transform-origin: 100% 50%; }
+  .label { font-size: calc(28 * var(--u)); color: var(--muted); }
+  .value { font-size: calc(32 * var(--u)); font-weight: 600; text-align: right; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+  <div id="scene" class="clip" data-start="0" data-duration="6">
+    <div id="card" class="panel">
+      <div class="mask"><span id="title" class="kicker"></span></div>
+      <div id="rows"></div>
+    </div>
+  </div>
+</div>
+<script>
+  const k = chop();
+  const card = document.getElementById("card");
+  const left = k.vars.side === "left";
+  card.classList.toggle("left", left);
+  card.classList.toggle("wide", k.vertical);
+  k.text("title", k.vars.title);
+  const rows = k.list(k.vars.rows).slice(0, 6);
+  const box = document.getElementById("rows");
+  rows.forEach((row) => {
+    const cut = row.indexOf(":");
+    const el = document.createElement("div");
+    el.className = "row";
+    el.innerHTML = '<div class="rule"></div><div class="mask"><span class="label"></span></div><div class="mask"><span class="value"></span></div>';
+    el.querySelector(".label").textContent = cut >= 0 ? row.slice(0, cut).trim() : row;
+    el.querySelector(".value").textContent = cut >= 0 ? row.slice(cut + 1).trim() : "";
+    box.appendChild(el);
+  });
+  const shut = k.vertical ? "inset(100% 0% 0% 0%)" : left ? "inset(0% 100% 0% 0%)" : "inset(0% 0% 0% 100%)";
+  const out = Math.max(1.6, k.D - 0.6);
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo("#card", { clipPath: shut }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power4.out" }, 0);
+  tl.fromTo("#title", { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "power3.out" }, 0.2);
+  document.querySelectorAll(".row").forEach((el, i) => {
+    const at = 0.34 + i * 0.12;
+    tl.fromTo(el.querySelector(".rule"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.inOut" }, at);
+    tl.fromTo(el.querySelectorAll(".label, .value"), { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "power3.out", stagger: 0.05 }, at + 0.08);
+  });
+  tl.to(".label, .value, #title", { yPercent: -110, duration: 0.25, ease: "power2.in", stagger: 0.02 }, out);
+  tl.to("#card", { clipPath: shut, duration: 0.32, ease: "power3.in" }, out + 0.25);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

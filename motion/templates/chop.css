@@ -1,0 +1,24 @@
+/* solid panels: premiere blends in linear light, half transparent ones come out pale. --u is 1/1080 of the short side */
+:root {
+  --u: 1px;
+  --sx: 115px;
+  --sy: 86px;
+  --sb: 130px;
+  --accent: #ff5a36;
+  --ink: #0d0d10;
+  --line: #2c2c33;
+  --paper: #f5f5f7;
+  --muted: #a3a3ad;
+  --good: #3ddc84;
+  --bad: #ff5f57;
+  --font: "Bahnschrift", "Segoe UI Variable Display", "Segoe UI", sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: transparent; }
+#root { position: relative; width: 100%; height: 100%; font-family: var(--font); color: var(--paper); }
+#scene { position: absolute; inset: 0; }
+.panel { background: var(--ink); }
+.mask { display: block; overflow: hidden; }
+.mask > span { display: inline-block; }
+.kicker { color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; }
+.num { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionList>
+  <Extension Id="com.chopshopMCP.panel.main">
+    <HostList>
+      <!-- open http://localhost:8088 in chrome to debug the panel -->
+      <Host Name="PPRO" Port="8088" />
+    </HostList>
+  </Extension>
+</ExtensionList>

@@ -1,0 +1,17 @@
+av>=12
+numpy>=1.24
+pillow>=10
+faster-whisper>=1.1
+huggingface-hub>=0.20
+opencv-contrib-python-headless>=4.8
+mcp>=1.9
+# reference edits: downloads and youtube signature solving (needs node or deno)
+yt-dlp[default]>=2025.10
+# onnxruntime comes with faster-whisper (cpu build). install.bat swaps it for a gpu build:
+#   nvidia driver 580+: onnxruntime-gpu[cuda,cudnn]   other gpus: onnxruntime-directml
+# nvidia gpu (optional, much faster whisper):
+# nvidia-cublas-cu12
+# nvidia-cudnn-cu12==9.*
+# outline masks with video memory (sam 2.1 hiera tiny, optional, falls back to mobilesam): python 3.14 wheels
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130   (cu128 or cpu as needed)
+#   pip install transformers>=5.19

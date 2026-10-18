@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr" data-composition-variables='[
+  {"id":"title","type":"string","label":"Small title","default":"Verdict"},
+  {"id":"score","type":"number","label":"The score, 0 for none","default":8.5},
+  {"id":"max","type":"number","label":"Out of","default":10},
+  {"id":"pros","type":"string","label":"Good points separated by |","default":"Very fast glide | Premium finish | No wear on the skates"},
+  {"id":"cons","type":"string","label":"Bad points separated by |","default":"High price | Scratchy sound"},
+  {"id":"locale","type":"string","label":"Number format","default":"en-US"},
+  {"id":"accent","type":"color","label":"Accent colour","default":"#ff5a36"}]'>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<meta name="description" content="Verdict card: a centred solid panel with a small title, a score that counts up with a bar, then the good points and the bad points in two columns, one after the other. For the end of a review." />
+<link rel="stylesheet" href="chop.css" />
+<script src="gsap.min.js"></script>
+<script src="chop.js"></script>
+<style>
+  #card { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: calc(1180 * var(--u));
+          padding: calc(40 * var(--u)) calc(54 * var(--u)) calc(46 * var(--u)); border-top: calc(6 * var(--u)) solid var(--accent); }
+  #head { display: flex; justify-content: space-between; align-items: flex-end; }
+  #title { font-size: calc(28 * var(--u)); }
+  #score { font-size: calc(120 * var(--u)); font-weight: 700; line-height: 0.9; font-stretch: 75%; }
+  #max { font-size: calc(46 * var(--u)); color: var(--muted); font-weight: 600; margin-left: calc(6 * var(--u)); }
+  #track { height: calc(8 * var(--u)); background: var(--line); margin: calc(22 * var(--u)) 0 calc(30 * var(--u)); }
+  #fill { height: 100%; background: var(--accent); transform-origin: 0 50%; }
+  #cols { display: grid; grid-template-columns: 1fr 1fr; gap: calc(48 * var(--u)); }
+  .item { display: flex; gap: calc(16 * var(--u)); align-items: baseline; font-size: calc(34 * var(--u)); line-height: 1.25;
+          padding: calc(9 * var(--u)) 0; }
+  .mark { font-weight: 700; width: calc(30 * var(--u)); flex: none; text-align: center; }
+  .pro .mark { color: var(--good); }
+  .con .mark { color: var(--bad); }
+  #card.vertical { width: calc(940 * var(--u)); }
+  #card.vertical #cols { grid-template-columns: 1fr; gap: calc(18 * var(--u)); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1920" data-height="1080">
+  <div id="scene" class="clip" data-start="0" data-duration="7">
+    <div id="card" class="panel">
+      <div id="head">
+        <div class="mask"><span id="title" class="kicker"></span></div>
+        <div class="mask" id="scoreBox"><span><span id="score" class="num"></span><span id="max"></span></span></div>
+      </div>
+      <div id="track"><div id="fill"></div></div>
+      <div id="cols"><div id="pros"></div><div id="cons"></div></div>
+    </div>
+  </div>
+</div>
+<script>
+  const k = chop();
+  document.getElementById("card").classList.toggle("vertical", k.vertical);
+  k.text("title", k.vars.title);
+  const score = Number(k.vars.score) || 0;
+  const max = Number(k.vars.max) || 10;
+  const decimals = Math.round(score) === score ? 0 : 1;
+  const fmt = (v) => k.number(v, decimals, k.vars.locale);
+  const scoreEl = k.text("score", fmt(0));
+  k.text("max", "/" + fmt(max).replace(/[,.]0$/, ""));
+  if (!score) { document.getElementById("scoreBox").style.display = "none"; document.getElementById("track").style.display = "none"; }
+  const fillList = (id, items, cls, mark) => items.forEach((text) => {
+    const el = document.createElement("div");
+    el.className = "item " + cls;
+    el.innerHTML = '<span class="mark"></span><span class="what"></span>';
+    el.querySelector(".mark").textContent = mark;
+    el.querySelector(".what").textContent = text;
+    document.getElementById(id).appendChild(el);
+  });
+  fillList("pros", k.list(k.vars.pros).slice(0, 5), "pro", "+");
+  fillList("cons", k.list(k.vars.cons).slice(0, 5), "con", "−");
+  const count = { v: 0 };
+  const out = Math.max(2.4, k.D - 0.55);
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo("#card", { clipPath: "inset(50% 0% 50% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "expo.out" }, 0);
+  tl.fromTo("#title", { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "power3.out" }, 0.2);
+  tl.fromTo("#scoreBox > span", { yPercent: 105 }, { yPercent: 0, duration: 0.5, ease: "power3.out" }, 0.28);
+  tl.to(count, { v: score, duration: 1.1, ease: "power2.out", onUpdate: () => { scoreEl.textContent = fmt(count.v); } }, 0.35);
+  tl.fromTo("#fill", { scaleX: 0 }, { scaleX: Math.min(1, score / max), duration: 1.1, ease: "power2.out" }, 0.35);
+  const items = Array.from(document.querySelectorAll(".pro")).concat(Array.from(document.querySelectorAll(".con")));
+  items.forEach((el, i) => {
+    tl.fromTo(el, { x: -24 * Math.min(k.W, k.H) / 1080, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.9 + i * 0.13);
+  });
+  tl.to("#card", { clipPath: "inset(50% 0% 50% 0%)", duration: 0.45, ease: "expo.in" }, out);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

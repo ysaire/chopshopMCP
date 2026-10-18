@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="dark">
+  <title>chopshopMCP</title>
+  <link rel="stylesheet" href="css/panel.css">
+</head>
+<body>
+  <!-- iconsax linear, inlined so the panel works offline -->
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-setting" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"/>
+      <path d="M2 12.8794V11.1194C2 10.0794 2.85 9.21945 3.9 9.21945C5.71 9.21945 6.45 7.93945 5.54 6.36945C5.02 5.46945 5.33 4.29945 6.24 3.77945L7.97 2.78945C8.76 2.31945 9.78 2.59945 10.25 3.38945L10.36 3.57945C11.26 5.14945 12.74 5.14945 13.65 3.57945L13.76 3.38945C14.23 2.59945 15.25 2.31945 16.04 2.78945L17.77 3.77945C18.68 4.29945 18.99 5.46945 18.47 6.36945C17.56 7.93945 18.3 9.21945 20.11 9.21945C21.15 9.21945 22.01 10.0694 22.01 11.1194V12.8794C22.01 13.9194 21.16 14.7794 20.11 14.7794C18.3 14.7794 17.56 16.0594 18.47 17.6294C18.99 18.5394 18.68 19.6994 17.77 20.2194L16.04 21.2094C15.25 21.6794 14.23 21.3994 13.76 20.6094L13.65 20.4194C12.75 18.8494 11.27 18.8494 10.36 20.4194L10.25 20.6094C9.78 21.3994 8.76 21.6794 7.97 21.2094L6.24 20.2194C5.33 19.6994 5.02 18.5294 5.54 17.6294C6.45 16.0594 5.71 14.7794 3.9 14.7794C2.85 14.7794 2 13.9194 2 12.8794Z"/>
+    </symbol>
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M14.9998 19.9201L8.47984 13.4001C7.70984 12.6301 7.70984 11.3701 8.47984 10.6001L14.9998 4.08008"/>
+    </symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M21.67 14.3L21.27 19.3C21.12 20.83 21 22 18.29 22H5.71001C3.00001 22 2.88001 20.83 2.73001 19.3L2.33001 14.3C2.25001 13.47 2.51001 12.7 2.98001 12.11C2.99001 12.1 2.99001 12.1 3.00001 12.09C3.55001 11.42 4.38001 11 5.31001 11H18.69C19.62 11 20.44 11.42 20.98 12.07C20.99 12.08 21 12.09 21 12.1C21.49 12.69 21.76 13.46 21.67 14.3Z"/>
+      <path d="M3.5 11.4303V6.28027C3.5 2.88027 4.35 2.03027 7.75 2.03027H9.02C10.29 2.03027 10.58 2.41027 11.06 3.05027L12.33 4.75027C12.65 5.17027 12.84 5.43027 13.69 5.43027H16.24C19.64 5.43027 20.49 6.28027 20.49 9.68027V11.4703"/>
+      <path d="M9.43005 17H14.5701"/>
+    </symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"/>
+      <path d="M13.67 7.50977C13.17 7.35977 12.62 7.25977 12 7.25977C9.24 7.25977 7 9.49977 7 12.2598C7 15.0198 9.24 17.2598 12 17.2598C14.76 17.2598 17 15.0198 17 12.2598C17 11.2298 16.69 10.2798 16.16 9.47977"/>
+      <path d="M14.3802 7.65024L12.7202 5.74023"/>
+      <path d="M14.3799 7.65039L12.4399 9.07039"/>
+    </symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9"/>
+      <path d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9"/>
+      <path d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16"/>
+      <path d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15"/>
+      <path d="M8.5 11C9.88071 11 11 9.88071 11 8.5C11 7.11929 9.88071 6 8.5 6C7.11929 6 6 7.11929 6 8.5C6 9.88071 7.11929 11 8.5 11Z"/>
+      <path d="M7.5 18C8.32843 18 9 17.3284 9 16.5C9 15.6716 8.32843 15 7.5 15C6.67157 15 6 15.6716 6 16.5C6 17.3284 6.67157 18 7.5 18Z"/>
+      <path d="M16.5 9C17.3284 9 18 8.32843 18 7.5C18 6.67157 17.3284 6 16.5 6C15.6716 6 15 6.67157 15 7.5C15 8.32843 15.6716 9 16.5 9Z"/>
+      <path d="M15.5 18C16.8807 18 18 16.8807 18 15.5C18 14.1193 16.8807 13 15.5 13C14.1193 13 13 14.1193 13 15.5C13 16.8807 14.1193 18 15.5 18Z"/>
+    </symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"/>
+      <path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z"/>
+    </symbol>
+    <symbol id="i-magicpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.49994 20.4995C4.32994 21.3295 5.66994 21.3295 6.49994 20.4995L19.4999 7.49945C20.3299 6.66945 20.3299 5.32945 19.4999 4.49945C18.6699 3.66945 17.3299 3.66945 16.4999 4.49945L3.49994 17.4995C2.66994 18.3295 2.66994 19.6695 3.49994 20.4995Z"/>
+      <path d="M18.01 8.99023L15.01 5.99023"/>
+      <path stroke-width="1" d="M8.5 2.44L10 2L9.56 3.5L10 5L8.5 4.56L7 5L7.44 3.5L7 2L8.5 2.44Z"/>
+      <path stroke-width="1" d="M4.5 8.44L6 8L5.56 9.5L6 11L4.5 10.56L3 11L3.44 9.5L3 8L4.5 8.44Z"/>
+      <path stroke-width="1" d="M19.5 13.44L21 13L20.56 14.5L21 16L19.5 15.56L18 16L18.44 14.5L18 13L19.5 13.44Z"/>
+    </symbol>
+    <symbol id="i-scissor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5.5 10C7.433 10 9 8.433 9 6.5C9 4.567 7.433 3 5.5 3C3.567 3 2 4.567 2 6.5C2 8.433 3.567 10 5.5 10Z"/>
+      <path d="M5.5 21C7.433 21 9 19.433 9 17.5C9 15.567 7.433 14 5.5 14C3.567 14 2 15.567 2 17.5C2 19.433 3.567 21 5.5 21Z"/>
+      <path d="M22 6L8.65002 15.98"/>
+      <path d="M22 17.9705L8.65002 7.98047"/>
+    </symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M5.15002 2V22"/>
+      <path d="M5.15002 4H16.35C19.05 4 19.65 5.5 17.75 7.4L16.55 8.6C15.75 9.4 15.75 10.7 16.55 11.4L17.75 12.6C19.65 14.5 18.95 16 16.35 16H5.15002"/>
+    </symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11.97 22C17.4928 22 21.97 17.5228 21.97 12C21.97 6.47715 17.4928 2 11.97 2C6.44712 2 1.96997 6.47715 1.96997 12C1.96997 17.5228 6.44712 22 11.97 22Z"/>
+      <path d="M10.73 16.2295H13.27C15.39 16.2295 16.23 15.3795 16.23 13.2695V10.7295C16.23 8.60953 15.38 7.76953 13.27 7.76953H10.73C8.61002 7.76953 7.77002 8.61953 7.77002 10.7295V13.2695C7.77002 15.3795 8.62002 16.2295 10.73 16.2295Z"/>
+    </symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.17004 7.43945L12 12.5495L20.77 7.46945"/>
+      <path d="M12 21.6091V12.5391"/>
+      <path d="M9.93001 2.4793L4.59001 5.4393C3.38001 6.1093 2.39001 7.7893 2.39001 9.1693V14.8193C2.39001 16.1993 3.38001 17.8793 4.59001 18.5493L9.93001 21.5193C11.07 22.1493 12.94 22.1493 14.08 21.5193L19.42 18.5493C20.63 17.8793 21.62 16.1993 21.62 14.8193V9.1693C21.62 7.7893 20.63 6.1093 19.42 5.4393L14.08 2.4693C12.93 1.8393 11.07 1.8393 9.93001 2.4793Z"/>
+    </symbol>
+    <symbol id="i-game" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M9.57002 12.4609L6.52002 15.5109"/>
+      <path d="M6.55005 12.4902L9.60005 15.5402"/>
+      <path stroke-width="2" d="M13.53 14H13.54"/>
+      <path stroke-width="2" d="M17.47 14H17.48"/>
+      <path stroke-width="2" d="M15.5 15.9809V15.9609"/>
+      <path stroke-width="2" d="M15.5 12.0395V12.0195"/>
+      <path d="M9 22H15C20 22 22 20 22 15V13C22 8 20 6 15 6H9C4 6 2 8 2 13V15C2 20 4 22 9 22Z"/>
+      <path d="M13.01 2L13 3.01C12.99 3.56 12.55 4 12 4H11.97C11.42 4 10.98 4.45 10.98 5C10.98 5.55 11.43 6 11.98 6H12.98"/>
+    </symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15.5C14.21 15.5 16 13.71 16 11.5V6C16 3.79 14.21 2 12 2C9.79 2 8 3.79 8 6V11.5C8 13.71 9.79 15.5 12 15.5Z"/>
+      <path d="M4.34998 9.65039V11.3504C4.34998 15.5704 7.77998 19.0004 12 19.0004C16.22 19.0004 19.65 15.5704 19.65 11.3504V9.65039"/>
+      <path d="M10.61 6.43012C11.51 6.10012 12.49 6.10012 13.39 6.43012"/>
+      <path d="M11.2 8.55031C11.73 8.41031 12.28 8.41031 12.81 8.55031"/>
+      <path d="M12 19V22"/>
+    </symbol>
+    <symbol id="i-category" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M5 10H7C9 10 10 9 10 7V5C10 3 9 2 7 2H5C3 2 2 3 2 5V7C2 9 3 10 5 10Z"/>
+      <path d="M17 10H19C21 10 22 9 22 7V5C22 3 21 2 19 2H17C15 2 14 3 14 5V7C14 9 15 10 17 10Z"/>
+      <path d="M17 22H19C21 22 22 21 22 19V17C22 15 21 14 19 14H17C15 14 14 15 14 17V19C14 21 15 22 17 22Z"/>
+      <path d="M5 22H7C9 22 10 21 10 19V17C10 15 9 14 7 14H5C3 14 2 15 2 17V19C2 21 3 22 5 22Z"/>
+    </symbol>
+    <symbol id="i-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"/>
+      <path d="M7.75 11.9999L10.58 14.8299L16.25 9.16992"/>
+    </symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+      <path d="M8 12.1992H15"/>
+      <path d="M8 16.1992H12.38"/>
+      <path d="M10 6H14C16 6 16 5 16 4C16 2 15 2 14 2H10C9 2 8 2 8 4C8 6 9 6 10 6Z"/>
+      <path d="M16 4.01953C19.33 4.19953 21 5.42953 21 9.99953V15.9995C21 19.9995 20 21.9995 15 21.9995H9C4 21.9995 3 19.9995 3 15.9995V9.99953C3 5.43953 4.67 4.19953 8 4.01953"/>
+    </symbol>
+    <symbol id="i-task" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.37 8.88086H17.62"/>
+      <path d="M6.38 8.88086L7.13 9.63086L9.38 7.38086"/>
+      <path d="M12.37 15.8809H17.62"/>
+      <path d="M6.38 15.8809L7.13 16.6309L9.38 14.3809"/>
+      <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"/>
+    </symbol>
+  </svg>
+
+  <header class="topBar">
+    <div class="brand">chopshop<span>MCP</span></div>
+    <div class="topRight">
+      <div class="statusRow">
+        <span class="led" title="premiere"><span class="dot" id="statusHost" title="premiere"></span>PR</span>
+        <span class="led" title="python sidecar"><span class="dot" id="statusPython" title="python sidecar"></span>PY</span>
+        <span class="led" title="claude bridge (mcp)"><span class="dot" id="statusBridge" title="claude bridge (mcp)"></span>MCP</span>
+      </div>
+      <button class="iconBtn" id="settingsBtn" title="Settings" aria-label="Settings" aria-pressed="false"><svg class="ico"><use href="#i-setting"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <div id="mainView">
+      <section class="card">
+        <div class="rushRow">
+          <select id="mediaSelect" aria-label="Rush"></select>
+          <button class="iconBtn" id="browseBtn" title="Browse: pick the rush file yourself" aria-label="Browse"><svg class="ico"><use href="#i-folder"/></svg></button>
+          <button class="iconBtn" id="refreshBtn" title="Refresh: re-read the selection in Premiere" aria-label="Refresh"><svg class="ico"><use href="#i-refresh"/></svg></button>
+        </div>
+        <div class="hint" id="mediaHint">Select a clip in the timeline or the project panel.</div>
+      </section>
+
+      <section class="card">
+        <div class="chips" id="formatGroup" role="radiogroup" aria-label="Footage">
+          <button data-format="unboxing" role="radio" title="Unboxing, desk setup, ASMR"><svg class="ico"><use href="#i-box"/></svg><span>Unboxing</span></button>
+          <button data-format="gaming" role="radio" title="Gaming"><svg class="ico"><use href="#i-game"/></svg><span>Gaming</span></button>
+          <button data-format="podcast" role="radio" title="Podcast, interview"><svg class="ico"><use href="#i-mic"/></svg><span>Podcast</span></button>
+          <button data-format="core" role="radio" title="Other footage"><svg class="ico"><use href="#i-category"/></svg><span>Other</span></button>
+        </div>
+        <input id="goalInput" type="text" aria-label="What you want" placeholder="What you want: 45 s vertical flash edit + a long version">
+        <button class="primary wide" id="analyzeBtn" title="Analyzes the rush locally once, then copies a prompt to paste in Claude Desktop"><svg class="ico"><use href="#i-scan"/></svg>Analyze for Claude</button>
+      </section>
+
+      <section class="tiles">
+        <button class="tile" id="copyPromptBtn" title="Copy the prompt for Claude Desktop"><svg class="ico"><use href="#i-copy"/></svg><span>Copy prompt</span></button>
+        <button class="tile" id="refineMaskBtn" title="Refine mask: sketch a pen mask on the clip's Mosaic or Gaussian Blur where the object is whole, set In and Out on the stretch to hide, select the clip, then click. The sketch becomes the object's silhouette on every frame."><svg class="ico"><use href="#i-magicpen"/></svg><span>Refine mask</span></button>
+        <button class="tile" id="silencesBtn" title="Cut the dead air of the rush into a new sequence (settings: silence cut)"><svg class="ico"><use href="#i-scissor"/></svg><span>Cut silences</span></button>
+        <button class="tile" id="clearMarkersBtn" title="Remove the review markers Claude put on the active timeline"><svg class="ico"><use href="#i-flag"/></svg><span>Clear markers</span></button>
+      </section>
+    </div>
+
+    <div id="settingsView" hidden>
+      <div class="viewHead">
+        <button class="iconBtn" id="backBtn" title="Back" aria-label="Back"><svg class="ico"><use href="#i-back"/></svg></button>
+        <div class="viewTitle">Settings</div>
+      </div>
+
+      <section class="card">
+        <div class="cardTitle">Masks</div>
+        <label for="maskModeSelect">Mode</label>
+        <select id="maskModeSelect">
+          <option value="native">Native, Premiere pen masks grafted into the project (editable)</option>
+          <option value="matte">Mattes, Premiere composites the original (editable)</option>
+          <option value="baked">Baked, pixels rendered by chopshopMCP</option>
+        </select>
+        <div class="grid">
+          <label for="featherInput">Feather (px at 1080p)</label>
+          <input id="featherInput" type="number" min="0" max="200" step="1">
+          <label for="expansionInput">Expansion (px at 1080p)</label>
+          <input id="expansionInput" type="number" min="-100" max="200" step="1">
+        </div>
+        <label for="cutoutSelect">Subject cutout</label>
+        <select id="cutoutSelect">
+          <option value="auto">Auto (fine edges on GPU)</option>
+          <option value="best">Best, fine edges every frame</option>
+          <option value="fast">Fast, coarse edges</option>
+        </select>
+      </section>
+
+      <section class="card">
+        <div class="cardTitle">Voice</div>
+        <div class="grid">
+          <label for="voiceTrackSelect">Voice track</label>
+          <select id="voiceTrackSelect">
+            <option value="1">A1</option>
+            <option value="2">A2</option>
+            <option value="3">A3</option>
+            <option value="4">A4</option>
+          </select>
+          <label for="languageSelect">Language</label>
+          <select id="languageSelect">
+            <option value="auto">Auto</option>
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="pt">Português</option>
+          </select>
+          <label for="whisperSelect">Whisper</label>
+          <select id="whisperSelect">
+            <option value="auto">Auto (turbo on GPU, small on CPU)</option>
+            <option value="large-v3-turbo">large-v3-turbo</option>
+            <option value="large-v3">large-v3</option>
+            <option value="medium">medium</option>
+            <option value="small">small</option>
+            <option value="base">base</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="cardTitle">Silence cut</div>
+        <div class="grid">
+          <label for="padInput">Padding (ms)</label>
+          <input id="padInput" type="number" min="0" max="500" step="10">
+          <label for="minSilenceInput">Min silence (ms)</label>
+          <input id="minSilenceInput" type="number" min="100" max="3000" step="50">
+          <label for="thresholdInput">Threshold (dB)</label>
+          <input id="thresholdInput" type="number" min="-80" max="-10" step="1" placeholder="auto">
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="cardTitle">Graphics</div>
+        <label for="accentText">Channel accent</label>
+        <div class="accentRow">
+          <input id="accentPicker" type="color" value="#ff5a36" aria-label="Pick the accent">
+          <input id="accentText" type="text" maxlength="7" spellcheck="false" placeholder="template colours">
+        </div>
+        <div class="hint">Every motion graphic that takes an accent uses it. Empty: each template keeps its own.</div>
+      </section>
+
+      <section class="card">
+        <div class="cardTitle">Python</div>
+        <label for="pythonInput">Interpreter</label>
+        <input id="pythonInput" type="text" spellcheck="false" placeholder="python">
+        <div class="tiles three">
+          <button class="tile" id="checkBtn" title="Check that every python module is installed"><svg class="ico"><use href="#i-tick"/></svg><span>Check setup</span></button>
+          <button class="tile" id="diagnoseBtn" title="Copies a report to paste in a bug report"><svg class="ico"><use href="#i-clipboard"/></svg><span>Diagnose</span></button>
+          <button class="tile" id="selfTestBtn" title="Imports a tiny test edit and checks every trick in this Premiere"><svg class="ico"><use href="#i-task"/></svg><span>Self-test</span></button>
+        </div>
+        <div class="hint" id="bridgeHint"></div>
+      </section>
+    </div>
+
+    <section class="status" aria-live="polite">
+      <div class="stageRow">
+        <div class="stage" id="stageLabel">Idle</div>
+        <button class="iconBtn small" id="cancelBtn" title="Stop" aria-label="Stop" hidden><svg class="ico"><use href="#i-stop"/></svg></button>
+      </div>
+      <div class="progress"><div class="bar" id="progressBar"></div></div>
+      <div class="result" id="resultBox" hidden></div>
+    </section>
+
+    <pre class="log" id="logBox"></pre>
+  </main>
+
+  <script src="js/cep.js"></script>
+  <script src="js/bridgeServer.js"></script>
+  <script src="js/sidecar.js"></script>
+  <script src="js/selfTest.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

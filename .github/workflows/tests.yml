@@ -1,0 +1,29 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python: ["3.12", "3.14"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          allow-prereleases: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: python packages
+        run: python -m pip install -r sidecar/requirements.txt pytest
+      - name: sidecar and mcp tests
+        run: python -m pytest -q
+      - name: panel and host tests
+        run: node --test tests/testPanel.js tests/testEditInPlace.js
